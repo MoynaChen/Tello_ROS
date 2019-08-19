@@ -1,0 +1,4 @@
+
+# python-opencv # handled by ROS
+av
+numpy
