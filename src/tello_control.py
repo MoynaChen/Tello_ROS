@@ -4,23 +4,21 @@ from std_msgs.msg import Empty, UInt8, Bool,String
 from std_msgs.msg import UInt8MultiArray
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
-from nav_msgs.msg import Odometry
 from dynamic_reconfigure.server import Server
-from tello_driver.msg import TelloStatus
 from tello_driver.cfg import TelloConfig
 from cv_bridge import CvBridge, CvBridgeError
 
 import time
 import math
 import sys
-sys.path.append('/home/tello/TelloPy/')
+sys.path.append('/home/tello/catkin_ws/src/TelloPy/')#/home/#your_name/catkin_ws/src/TelloPy
 from tellopy._internal import tello
 from tellopy._internal import error
 from tellopy._internal import protocol
 from tellopy._internal import logger
 
 key_mapping = { 'w': [ 0, 1], 'x': [0, -1], 
-                'a': [-1, 0], 'd': [1,  0], 
+                'a': [1, 0], 'd': [-1,  0], 
                 's': [ 0, 0] }
 
 
@@ -112,6 +110,7 @@ class TelloControlNode(tello.Tello):
         if g_last_twist.linear.x == 1:
             print("takeoff")
             success = self.takeoff()
+            print(success)
             notify_cmd_success('Takeoff', success)
        
             
@@ -123,14 +122,16 @@ class TelloControlNode(tello.Tello):
     
     def cb_forward(self,val):
         if g_last_twist.angular.z == 1:
-            val=30
-            success = self.forward(val)
+            val=10
+            success = True
+            self.forward(val)
             notify_cmd_success('forward', success)
     
     def cb_backward(self,val):
         if g_last_twist.angular.z == -1:
-            val=30
-            success = self.backward(val)
+            val=10
+            success = True
+            self.backward(val)
             notify_cmd_success('backward', success)
 
 
@@ -149,7 +150,7 @@ def main():
     rospy.init_node('tello_control_node')
     robot = TelloControlNode()
     #rate = rospy.Rate(10)
-    #g_last_twist = Twist() # initializes to zero
+    g_last_twist = Twist() # initializes to zero
     # while not rospy.is_shutdown():
     #     rospy.publish(g_last_twist)
     #     rate.sleep()
