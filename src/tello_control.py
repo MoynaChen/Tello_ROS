@@ -17,9 +17,10 @@ from tellopy._internal import error
 from tellopy._internal import protocol
 from tellopy._internal import logger
 
-key_mapping = { 'w': [ 0, 1], 'x': [0, -1], 
-                'a': [1, 0], 'd': [-1,  0], 
-                's': [ 0, 0] }
+key_mapping = { 'w': [ 0, 1,0], 'x': [0, -1,0], 
+                'a': [1, 0,0], 'd': [-1,  0,0], 
+                'z':[0,0,1], 'c':[0,0,-1],
+                's': [ 0, 0,0] }
 
 
 global g_last_twist 
@@ -102,12 +103,14 @@ class TelloControlNode(tello.Tello):
         self.sub_takeoff = rospy.Subscriber('keys', String, self.cb_takeoff)
         self.sub_land = rospy.Subscriber('keys', String, self.cb_land)
         self.sub_forward = rospy.Subscriber('keys', String, self.cb_forward)
-        self.sub_forward = rospy.Subscriber('keys', String, self.cb_backward)
+        self.sub_backward = rospy.Subscriber('keys', String, self.cb_backward)
+        self.sub_left = rospy.Subscriber('keys', String, self.cb_left)
+        self.sub_right = rospy.Subscriber('keys', String, self.cb_right)
 
         rospy.loginfo('Tello driver node ready')
         
     def cb_takeoff(self, msg):
-        if g_last_twist.linear.x == 1:
+        if g_last_twist.linear.z  == 1:
             print("takeoff")
             success = self.takeoff()
             print(success)
@@ -115,32 +118,46 @@ class TelloControlNode(tello.Tello):
        
             
     def cb_land(self, msg):
-        if g_last_twist.linear.x == -1:
+        if g_last_twist.linear.z  == -1:
             print("land")
             success = self.land()
             notify_cmd_success('Land', success)
     
     def cb_forward(self,val):
-        if g_last_twist.angular.z == 1:
+        if g_last_twist.linear.x == 1:
             val=10
             success = True
             self.forward(val)
             notify_cmd_success('forward', success)
     
     def cb_backward(self,val):
-        if g_last_twist.angular.z == -1:
+        if g_last_twist.linear.x == -1:
             val=10
             success = True
             self.backward(val)
             notify_cmd_success('backward', success)
 
+    def cb_left(self,val):
+        if g_last_twist.angular.z == 1:
+            val=10
+            success = True
+            self.left(val)
+            notify_cmd_success('left', success)
+
+    def cb_right(self,val):
+        if g_last_twist.angular.z == -1:
+            val=10
+            success = True
+            self.right(val)
+            notify_cmd_success('right', success)
 
     def keys_cb(self,msg,twist_pub1):
         if len(msg.data) == 0 or not key_mapping.has_key(msg.data[0]):
             return # unknown key.
         vels = key_mapping[msg.data[0]]
-        g_last_twist.angular.z = vels[0]
-        g_last_twist.linear.x  = vels[1]
+        g_last_twist.linear.z = vels[1] #takeoff&land
+        g_last_twist.linear.x  = vels[0]#forward&backward
+        g_last_twist.angular.z = vels[2]#left&right
         twist_pub1.publish(g_last_twist)
         print(g_last_twist)
 
