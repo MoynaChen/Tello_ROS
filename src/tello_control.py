@@ -5,7 +5,6 @@ from std_msgs.msg import UInt8MultiArray
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
 from dynamic_reconfigure.server import Server
-from tello_driver.cfg import TelloConfig
 from cv_bridge import CvBridge, CvBridgeError
 
 import time

@@ -7,7 +7,6 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from dynamic_reconfigure.server import Server
 from h264_image_transport.msg import H264Packet
-from tello_driver.msg import TelloStatus
 from tello_driver.cfg import TelloConfig
 from cv_bridge import CvBridge, CvBridgeError
 
@@ -18,7 +17,7 @@ import numpy as np
 import threading
 import time
 import sys
-sys.path.append('/home/tello/TelloPy/')
+sys.path.append('/home/tello/catkin_ws/src/TelloPy/')#/home/#your_name/catkin_ws/src/TelloPy
 from tellopy._internal import tello
 from tellopy._internal import error
 from tellopy._internal import protocol

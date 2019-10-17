@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(tello_ros)
+project(tello_driver)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -64,8 +64,8 @@ include_directories(
 #add_executable(test_h264_sub src/test_h264_sub.cpp)
 #target_link_libraries(test_h264_sub ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
-#add_executable(tello_ros src/tello_control.py)
-#target_link_libraries(tello_ros ${catkin_LIBRARIES})
+#add_executable(tello_driver src/tello_control.py)
+#target_link_libraries(tello_driver ${catkin_LIBRARIES})
 
 
 #############
