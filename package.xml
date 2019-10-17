@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>Tello_ROS</name>
+  <name>tello_ros</name>
   <version>0.0.0</version>
-  <description>>Tello_ROS</description>
+  <description>>tello_ros</description>
 
   <author email="ax@elementai.com">Anqi Xu</author>
   <maintainer email="ax@elementai.com">Anqi Xu</maintainer>

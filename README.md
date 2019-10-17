@@ -9,11 +9,11 @@ ROS driver wrapper for DJI/Ryze Tello drone
 > cd ~/catkin_ws/src
 > roscore 
 > #open another Terminal 
-> rosrun tello_driver tello_control.py
+> rosrun tello_ros tello_control.py
 > #open a new Terminal 
-> rosrun tello_driver keys_publish.py
+> rosrun tello_ros keys_publish.py
 
 *video
-> roslaunch tello_driver tello_node.launch
+> roslaunch tello_ros tello_node.launch
 > #open a new Terminal
 > rosrun rqt_image_view rqt_image_view /tello/image_raw/compressed
